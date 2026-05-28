@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENA - Guía de Aprendizaje Interactiva: BPM</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para una interfaz moderna -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Paleta de colores institucional SENA */
+        :root {
+            --color-sena-green: #39A900;
+            --color-sena-dark: #003057;
+            --color-sena-orange: #FF6B00;
+        }
+        .bg-sena-green { background-color: #39A900; }
+        .text-sena-green { color: #39A900; }
+        .border-sena-green { border-color: #39A900; }
+        .bg-sena-dark { background-color: #042340; }
+        .text-sena-dark { color: #042340; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col font-sans">
+
+    <!-- CABECERA INSTITUCIONAL SENA -->
+    <header class="bg-sena-dark text-white py-4 px-6 shadow-md" role="banner">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-inner">
+                    <!-- Isotipo SENA simplificado en SVG -->
+                    <svg class="w-10 h-10 text-sena-green" viewBox="0 0 100 100" fill="currentColor">
+                        <path d="M50 5C25.1 5 5 25.1 5 50s20.1 45 45 45 45-20.1 45-45S74.9 5 50 5zm0 12c4.4 0 8 3.6 8 8s-3.6 8-8 8-8-3.6-8-8 3.6-8 8-8zm21 54H61l-8-12h-6v12H37V39h16c8.3 0 14 4.7 14 12.5 0 5.1-2.8 9.1-7 11.1l11 12.4z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">Servicio Nacional de Aprendizaje SENA</h1>
+                    <p class="text-xs text-green-400 font-semibold tracking-wide uppercase">Tecnologías Agroindustriales</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-xs bg-emerald-800 text-emerald-100 py-1 px-3 rounded-full font-mono">ID: 921700 - Control de Inocuidad</span>
+                <span class="text-xs bg-amber-600 text-white py-1 px-3 rounded-full font-bold">Sesión: 30 Minutos</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- BARRA DE PROGRESO GLOBAL DE APRENDIZAJE -->
+    <div class="bg-gray-200 h-2.5 w-full sticky top-0 z-40" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id="progress-bar-container">
+        <div id="global-progress" class="bg-emerald-500 h-2.5 rounded-r" style="width: 15%; transition: width 0.5s ease-in-out;"></div>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-5xl w-full mx-auto p-4 sm:p-6 md:p-8" id="main-content">
+        
+        <!-- STEPPER INTERACTIVO DE NAVEGACIÓN -->
+        <nav class="mb-8" aria-label="Navegación de pasos de aprendizaje">
+            <ul class="flex flex-wrap justify-between items-center gap-2 bg-white p-3 rounded-xl shadow-sm border border-gray-100">
+                <li class="flex-1 min-w-[120px]">
+                    <button onclick="goToStep(1)" id="btn-step-1" class="w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm font-semibold transition bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500">
+                        <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">1</span>
+                        <span>El Reto</span>
+                    </button>
+                </li>
+                <li class="flex-1 min-w-[120px]">
+                    <button onclick="goToStep(2)" id="btn-step-2" class="w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm font-semibold transition text-gray-500 hover:bg-gray-50">
+                        <span class="w-6 h-6 rounded-full bg-gray-300 text-white flex items-center justify-center text-xs">2</span>
+                        <span>Contenido</span>
+                    </button>
+                </li>
+                <li class="flex-1 min-w-[120px]">
+                    <button onclick="goToStep(3)" id="btn-step-3" class="w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm font-semibold transition text-gray-500 hover:bg-gray-50">
+                        <span class="w-6 h-6 rounded-full bg-gray-300 text-white flex items-center justify-center text-xs">3</span>
+                        <span>Aplicación</span>
+                    </button>
+                </li>
+                <li class="flex-1 min-w-[120px]">
+                    <button onclick="goToStep(4)" id="btn-step-4" class="w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm font-semibold transition text-gray-500 hover:bg-gray-50">
+                        <span class="w-6 h-6 rounded-full bg-gray-300 text-white flex items-center justify-center text-xs">4</span>
+                        <span>Evaluación</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- SECCIONES DE CONTENIDO INTERACTIVO -->
+
+        <!-- MICRO 1: EL RETO -->
+        <section id="section-1" class="transition-opacity duration-300">
+            <!-- Gagné 1: Captar la atención mediante una alerta de situación crítica real en industria -->
+            <div class="bg-red-50 border-l-4 border-red-500 p-5 rounded-r-xl shadow-sm mb-6">
+                <div class="flex items-start gap-4">
+                    <div class="p-2 bg-red-100 rounded-lg text-red-600">
+                        <i data-lucide="alert-triangle" class="w-8 h-8"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold text-red-600 tracking-wider uppercase">Alerta Sanitaria Crítica - Planta Lácteos</span>
+                        <h3 class="font-bold text-lg text-red-950 mt-1">¡Contaminación por Patógenos Detectada!</h3>
+                        <p class="text-sm text-red-900 mt-2">
+                            El laboratorio de control de calidad ha detectado trazas de <strong class="italic">Staphylococcus aureus</strong> en el lote de quesos frescos #402. Si este lote sale a distribución, pondrá en riesgo la salud pública de miles de consumidores y causará la clausura inmediata de la planta.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+<!-- VIDEO DE INTRODUCCIÓN (SOLICITADO) -->
+                <div class="mb-8 rounded-3xl overflow-hidden shadow-2xl bg-black aspect-video border-4 border-white">
+                    <video 
+                        class="w-full h-full" 
+                        controls
+                        poster="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&q=80&w=1000"
+                    >
+                        <source src="C:\Users\usuario\OneDrive\Desktop\documentos\video\WhatsApp Video 2026-05-25 at 11.47.34 AM.mp4" type="video/mp4">
+                        Tu navegador no soporta la reproducción de videos. Por favor, asegúrate de tener el archivo en la carpeta VIDEOS.
+                    </video>
+                </div>
+                    </a>
+                </div>
+            <!-- El Desafío del Día -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+                <div class="p-6 sm:p-8">
+                    <span class="text-xs font-bold text-sena-green uppercase tracking-wide">Desafío Técnico del Día</span>
+                    <h2 class="text-2xl font-bold text-gray-950 mt-1 mb-4">Conviértete en el Auditor de Calidad BPM</h2>
+                    <p class="text-gray-600 leading-relaxed mb-6 text-sm sm:text-base">
+                        Para salvar la producción de la planta y garantizar la inocuidad agroindustrial, debes liderar una auditoría de emergencia. En esta sesión de 30 minutos aprenderás a identificar los riesgos críticos de higiene, controlar variables operativas y aplicar las Buenas Prácticas de Manufactura en un entorno simulado de transformación alimentaria.
+                    </p>
+
+                    <!-- Gagné 2: Estimular el recuerdo de conocimientos previos -->
+                    <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-6">
+                        <h4 class="font-bold text-sm text-blue-900 flex items-center gap-2">
+                            <i data-lucide="lightbulb" class="w-4 h-4 text-blue-500"></i>
+                            Conexión con Saberes Previos:
+                        </h4>
+                        <p class="text-xs text-blue-800 mt-1">
+                            ¿Recuerdas el lavado correcto de manos, el uso de la cofia y la importancia de controlar las temperaturas para evitar la multiplicación bacteriana? Estos conceptos básicos de manipulación de alimentos son tu base para implementar las BPM con éxito.
+                        </p>
+                    </div>
+
+                    <div class="flex justify-end">
+                        <button onclick="goToStep(2)" class="bg-sena-green hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition duration-150 flex items-center gap-2 text-sm">
+                            <span>Aceptar Reto y Estudiar BPM</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MICRO 2: EL CONTENIDO -->
+        <section id="section-2" class="hidden transition-opacity duration-300">
+            <!-- Gagné 3: Informar el objetivo de aprendizaje -->
+            <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl mb-6">
+                <p class="text-xs text-emerald-800 font-semibold uppercase tracking-wider">Objetivo de Aprendizaje (SENA):</p>
+                <p class="text-sm text-emerald-950 mt-1 font-medium">
+                    Al final de este microaprendizaje, estarás capacitado para aplicar los parámetros técnicos de higiene personal, zonificación de planta, y saneamiento de acuerdo con la normatividad sanitaria nacional e internacional de inocuidad alimentaria.
+                </p>
+            </div>
+
+            <!-- Gagné 4: Presentar el contenido interactivo y ameno -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+                <div class="p-6">
+                    <h2 class="text-xl font-bold text-gray-900 mb-6">Los 3 Pilares Críticos de las BPM</h2>
+
+                    <!-- Pestañas de Navegación de Contenido -->
+                    <div class="flex border-b border-gray-200 mb-6" role="tablist">
+                        <button onclick="switchTab('higiene')" id="tab-higiene" class="flex-1 py-3 px-4 text-center font-bold text-sm border-b-2 border-sena-green text-sena-green focus:outline-none transition" role="tab" aria-selected="true">
+                            1. Higiene Personal
+                        </button>
+                        <button onclick="switchTab('diseno')" id="tab-diseno" class="flex-1 py-3 px-4 text-center font-bold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300 focus:outline-none transition" role="tab" aria-selected="false">
+                            2. Saneamiento (POES)
+                        </button>
+                        <button onclick="switchTab('controles')" id="tab-controles" class="flex-1 py-3 px-4 text-center font-bold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300 focus:outline-none transition" role="tab" aria-selected="false">
+                            3. Control de Variables
+                        </button>
+                    </div>
+
+                    <!-- Contenido Tab 1: Higiene Personal -->
+                    <div id="content-higiene" class="space-y-6" role="tabpanel">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <h3 class="text-lg font-bold text-gray-950">El Personal: Primer Vector de Contaminación</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    El manipulador de alimentos es el responsable directo de garantizar que las bacterias patógenas no entren en la línea de producción. El estricto apego al protocolo de aseo personal marca la diferencia en la inocuidad.
+                                </p>
+                                <div class="bg-amber-50 p-4 rounded-xl border border-amber-100">
+                                    <h4 class="font-bold text-xs text-amber-900 uppercase">Estándar de Oro del Personal SENA:</h4>
+                                    <ul class="text-xs text-amber-800 mt-2 list-disc pl-4 space-y-1">
+                                        <li>Uso de uniforme de color claro, limpio y sin bolsillos arriba de la cintura.</li>
+                                        <li>Cofia que cubra la totalidad del cabello y tapabocas sobre nariz y boca.</li>
+                                        <li>Uñas cortas, limpias y sin esmalte (evita acumulación de patógenos).</li>
+                                        <li>Cero joyas, relojes o accesorios (riesgo de contaminación física y química).</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-xl flex flex-col justify-center items-center text-center">
+                                <div class="p-4 bg-white rounded-full shadow-sm text-sena-green mb-3">
+                                    <i data-lucide="hand" class="w-12 h-12"></i>
+                                </div>
+                                <h4 class="font-bold text-sm text-gray-900">Lavado Clínico de Manos obligatorio</h4>
+                                <p class="text-xs text-gray-500 mt-1 max-w-xs">
+                                    Debe durar mínimo 20 segundos usando jabón desinfectante, cepillo de uñas y secado con toalla de papel desechable.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contenido Tab 2: Saneamiento -->
+                    <div id="content-diseno" class="space-y-6 hidden" role="tabpanel">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <h3 class="text-lg font-bold text-gray-950">POES: Procedimientos Operativos Estandarizados</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    El saneamiento no se realiza al azar. Exige un plan ordenado que diferencie claramente entre <strong>Limpieza</strong> (eliminar suciedad visible) y <strong>Desinfección</strong> (reducir carga microbiana a niveles seguros).
+                                </p>
+                                <div class="bg-green-50 p-4 rounded-xl border border-green-100">
+                                    <h4 class="font-bold text-xs text-green-900 uppercase">La Regla de los 5 Pasos en POES:</h4>
+                                    <ol class="text-xs text-green-800 mt-2 list-decimal pl-4 space-y-1">
+                                        <li>Pre-enjuague preliminar con agua para remover partículas grandes.</li>
+                                        <li>Aplicación de detergente (ácido o alcalino según la grasa o mineral).</li>
+                                        <li>Acción mecánica (frotado y cepillado de conductos).</li>
+                                        <li>Enjuague final para retirar agentes químicos.</li>
+                                        <li>Aplicación de desinfectante certificado (cloro, amonio cuaternario, etc.).</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-xl flex flex-col justify-center items-center text-center">
+                                <div class="p-4 bg-white rounded-full shadow-sm text-sena-green mb-3">
+                                    <i data-lucide="droplet" class="w-12 h-12"></i>
+                                </div>
+                                <h4 class="font-bold text-sm text-gray-900">Agua Potable como Insumo Crítico</h4>
+                                <p class="text-xs text-gray-500 mt-1 max-w-xs">
+                                    Cualquier superficie en contacto con alimentos debe ser desinfectada únicamente con agua clorada que cumpla con los estándares microbiológicos nacionales de potabilidad.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contenido Tab 3: Control de Variables -->
+                    <div id="content-controles" class="space-y-6 hidden" role="tabpanel">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-4">
+                                <h3 class="text-lg font-bold text-gray-950">Puntos Críticos de Control en Línea</h3>
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    En la agroindustria, el tiempo y la temperatura son variables críticas de control. Las bacterias se multiplican de forma exponencial en la "zona de peligro" (entre los $4^\circ\text{C}$ y los $60^\circ\text{C}$).
+                                </p>
+                                <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                    <h4 class="font-bold text-xs text-blue-900 uppercase">Límites Críticos de Inocuidad:</h4>
+                                    <ul class="text-xs text-blue-800 mt-2 list-disc pl-4 space-y-1">
+                                        <li><strong>Refrigeración:</strong> Mantener materias primas perecederas estrictamente por debajo de los $4^\circ\text{C}$.</li>
+                                        <li><strong>Pasteurización:</strong> Calentamiento controlado (ej: LTLT $63^\circ\text{C}$ por 30 minutos o HTST $72^\circ\text{C}$ por 15 segundos) para eliminar patógenos viables.</li>
+                                        <li><strong>Humedad y pH:</strong> Monitorear la acidez para impedir el crecimiento biológico.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-4 rounded-xl flex flex-col justify-center items-center text-center">
+                                <div class="p-4 bg-white rounded-full shadow-sm text-sena-green mb-3">
+                                    <i data-lucide="thermometer" class="w-12 h-12"></i>
+                                </div>
+                                <h4 class="font-bold text-sm text-gray-900">Control Metrológico</h4>
+                                <p class="text-xs text-gray-500 mt-1 max-w-xs">
+                                    Todos los termómetros y manómetros de planta deben ser calibrados de acuerdo al Sistema Internacional de Medidas para evitar errores fatales de lectura.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Gagné 5: Proporcionar orientación / Acordeón de FAQs Rápidas -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+                <div class="p-6">
+                    <h3 class="font-bold text-base text-gray-950 mb-4 flex items-center gap-2">
+                        <i data-lucide="help-circle" class="w-5 h-5 text-sena-green"></i>
+                        Guía de Acción Rápida (Orientación)
+                    </h3>
+                    
+                    <div class="space-y-3">
+                        <details class="group bg-gray-50 p-4 rounded-xl border border-gray-100 [&_summary::-webkit-details-marker]:hidden">
+                            <summary class="flex justify-between items-center font-semibold text-sm text-gray-900 cursor-pointer">
+                                <span>¿Qué diferencia hay entre Limpiar y Desinfectar?</span>
+                                <span class="transition group-open:rotate-180">
+                                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                </span>
+                            </summary>
+                            <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                                Limpiar es quitar la grasa y mugre física visible mediante agua y jabón/detergentes. Desinfectar es aplicar calor o productos químicos desinfectantes homologados sobre las superficies limpias para eliminar las bacterias invisibles microscópicas. ¡No se puede desinfectar una superficie sucia!
+                            </p>
+                        </details>
+
+                        <details class="group bg-gray-50 p-4 rounded-xl border border-gray-100 [&_summary::-webkit-details-marker]:hidden">
+                            <summary class="flex justify-between items-center font-semibold text-sm text-gray-900 cursor-pointer">
+                                <span>¿Cuáles son las fuentes de contaminación cruzada?</span>
+                                <span class="transition group-open:rotate-180">
+                                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                                </span>
+                            </summary>
+                            <p class="text-xs text-gray-600 mt-2 leading-relaxed">
+                                La contaminación cruzada ocurre cuando patógenos de una zona sucia o alimento crudo viajan hacia alimentos listos para consumo. Puede ser directa (ej: goteo de sangre de carne sobre quesos) o indirecta (ej: usar la misma tabla de picar o cuchillo sin lavar para ambos alimentos).
+                            </p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-between">
+                <button onclick="goToStep(1)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-xl transition duration-150 flex items-center gap-2 text-sm">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span>Volver</span>
+                </button>
+                <button onclick="goToStep(3)" class="bg-sena-green hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition duration-150 flex items-center gap-2 text-sm">
+                    <span>Ir a la Auditoría Práctica</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- MICRO 3: LA APLICACIÓN -->
+        <section id="section-3" class="hidden transition-opacity duration-300">
+            <!-- Gagné 6: Oportunidad de desempeño (Simulador Práctico) -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+                <div class="p-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                        <div>
+                            <span class="text-xs font-bold text-sena-green uppercase tracking-wide">Simulador Interactivo de Planta</span>
+                            <h2 class="text-xl font-bold text-gray-950 mt-1">Inspección de Control y Saneamiento</h2>
+                        </div>
+                        <div class="bg-emerald-50 text-emerald-800 py-1 px-3 rounded-full text-xs font-bold flex items-center gap-1">
+                            <i data-lucide="check-circle" class="w-4 h-4"></i>
+                            Planta: Lácteos del Valle S.A.
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-gray-600 leading-relaxed mb-6">
+                        Estás de pie en la zona de cuajado y moldeo de quesos frescos. Has identificado 3 situaciones de alto riesgo higiénico. Haz clic en cada uno de los puntos críticos para corregir la infracción y ganar tus puntos de auditoría.
+                    </p>
+
+                    <!-- Planta Visual Simulada (Interactivo) -->
+                    <div class="relative w-full aspect-video bg-slate-900 rounded-xl overflow-hidden border border-slate-700 flex items-center justify-center p-4">
+                        <!-- Fondo esquemático de planta alimentaria -->
+                        <div class="absolute inset-0 opacity-40 flex justify-around items-center select-none pointer-events-none">
+                            <div class="w-24 h-48 border-4 border-slate-500 rounded-xl flex items-center justify-center text-slate-500 font-bold text-xs uppercase text-center p-2">Tanque de Mezcla</div>
+                            <div class="w-24 h-32 border-4 border-slate-500 rounded-xl flex items-center justify-center text-slate-500 font-bold text-xs uppercase text-center p-2">Mesa de Moldeo</div>
+                            <div class="w-20 h-40 border-4 border-slate-500 rounded-xl flex items-center justify-center text-slate-500 font-bold text-xs uppercase text-center p-2">Cuarto de Embalaje</div>
+                        </div>
+
+                        <!-- Estado Normal del Sistema -->
+                        <div class="absolute top-4 left-4 bg-slate-800 text-slate-100 text-xs py-1 px-2.5 rounded border border-slate-700 font-mono flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse"></span>
+                            <span>RIESGO DE INOCUIDAD ELEVADO</span>
+                        </div>
+
+                        <!-- Hotspot 1: Operario sin guantes ni cofia en mesa de moldeo -->
+                        <button onclick="interactHotspot('operario')" id="hotspot-operario" class="absolute left-1/4 top-1/2 -translate-y-1/2 bg-amber-500 hover:bg-amber-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg animate-bounce focus:outline-none focus:ring-4 focus:ring-amber-300" aria-label="Alerta de Operario en Mesa de Moldeo">
+                            <i data-lucide="user-x" class="w-5 h-5"></i>
+                        </button>
+
+                        <!-- Hotspot 2: Termómetro de pasteurización descalibrado -->
+                        <button onclick="interactHotspot('termometro')" id="hotspot-termometro" class="absolute right-1/4 top-1/3 bg-orange-500 hover:bg-orange-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg animate-bounce focus:outline-none focus:ring-4 focus:ring-orange-300" aria-label="Alerta de Instrumento de Medición">
+                            <i data-lucide="thermometer-snowflake" class="w-5 h-5"></i>
+                        </button>
+
+                        <!-- Hotspot 3: Puddle of water/open chemical near raw material -->
+                        <button onclick="interactHotspot('quimico')" id="hotspot-quimico" class="absolute right-1/3 bottom-1/4 bg-red-500 hover:bg-red-600 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg animate-bounce focus:outline-none focus:ring-4 focus:ring-red-300" aria-label="Alerta de Sustancias Químicas Mal Almacenadas">
+                            <i data-lucide="skull" class="w-5 h-5"></i>
+                        </button>
+
+                        <!-- Panel de Retroalimentación del Simulador -->
+                        <div id="sim-feedback-panel" class="absolute bottom-4 left-4 right-4 bg-slate-900/95 border border-slate-700 p-4 rounded-lg hidden text-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition duration-300">
+                            <div class="flex items-center gap-3">
+                                <div id="sim-icon-container" class="p-2 bg-emerald-500/20 text-emerald-400 rounded-lg">
+                                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h4 id="sim-title" class="font-bold text-sm">Auditoría Correctiva</h4>
+                                    <p id="sim-desc" class="text-xs text-slate-400 mt-0.5">Selecciona una acción correctiva para corregir la desviación detectada.</p>
+                                </div>
+                            </div>
+                            <div id="sim-actions-container" class="flex gap-2">
+                                <!-- Botones de acción dinámicos se inyectan por JS -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Contador de Hallazgos Corregidos -->
+                    <div class="grid grid-cols-3 gap-4 text-center mt-6">
+                        <div id="badge-operario" class="p-3 bg-gray-50 border border-gray-100 rounded-xl flex flex-col items-center">
+                            <i data-lucide="circle-dashed" class="w-5 h-5 text-gray-400 mb-1"></i>
+                            <span class="text-xs font-bold text-gray-500">Operario Seguro</span>
+                        </div>
+                        <div id="badge-termometro" class="p-3 bg-gray-50 border border-gray-100 rounded-xl flex flex-col items-center">
+                            <i data-lucide="circle-dashed" class="w-5 h-5 text-gray-400 mb-1"></i>
+                            <span class="text-xs font-bold text-gray-500">Variables Calibradas</span>
+                        </div>
+                        <div id="badge-quimico" class="p-3 bg-gray-50 border border-gray-100 rounded-xl flex flex-col items-center">
+                            <i data-lucide="circle-dashed" class="w-5 h-5 text-gray-400 mb-1"></i>
+                            <span class="text-xs font-bold text-gray-500">POES y Saneamiento</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="flex justify-between">
+                <button onclick="goToStep(2)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-xl transition duration-150 flex items-center gap-2 text-sm">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    <span>Volver</span>
+                </button>
+                <button onclick="goToStep(4)" class="bg-sena-green hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition duration-150 flex items-center gap-2 text-sm">
+                    <span>Avanzar a la Evaluación de Inocuidad</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- MICRO 4: GAMIFICACIÓN Y EVALUACIÓN -->
+        <section id="section-4" class="hidden transition-opacity duration-300">
+            <!-- Gagné 7: Evaluar el desempeño -->
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <span class="text-xs font-bold text-sena-green uppercase tracking-wide">Cuestionario Digital de Inocuidad</span>
+                            <h2 class="text-xl font-bold text-gray-950 mt-1">Evaluación de Competencia Técnica</h2>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs text-gray-500 uppercase font-semibold">Puntaje Global:</span>
+                            <div class="font-mono text-2xl font-bold text-sena-green"><span id="score-counter">0</span> / 100</div>
+                        </div>
+                    </div>
+
+                    <!-- Preguntas del Quiz -->
+                    <div class="space-y-6">
+                        <!-- Pregunta 1 -->
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Pregunta 1 de 3</span>
+                            <p class="font-bold text-sm text-gray-900 mt-1 mb-3">Un operario presenta una pequeña herida en la mano derecha. Según las BPM, ¿qué acción correctiva se debe tomar?</p>
+                            <div class="grid grid-cols-1 gap-2">
+                                <button onclick="selectAnswer(1, 'A')" id="q1-opt-A" class="quiz-option text-left text-xs sm:text-sm p-3 bg-white hover:bg-emerald-50 rounded-lg border border-gray-300 transition focus:outline-none">
+                                    A. Cubrir con una venda adhesiva impermeable de color llamativo (azul) y usar un guante impermeable, reportando al supervisor.
+                                </button>
+                                <button onclick="selectAnswer(1, 'B')" id="q1-opt-B" class="quiz-option text-left text-xs sm:text-sm p-3 bg-white hover:bg-emerald-50 rounded-lg border border-gray-300 transition focus:outline-none">
+                                    B. Lavar con alcohol y continuar las labores sin guantes para no perder destreza en el moldeo del queso fresco.
+                                </button>
+                                <button onclick="selectAnswer(1, 'C')" id="q1-opt-C" class="quiz-option text-left text-xs sm:text-sm p-3 bg-white hover:bg-emerald-50 rounded-lg border border-gray-300 transition focus:outline-none">
+                                    C. Aplicar una crema antibiótica y no utilizar jabones que alteren el pH natural de la piel durante el turno de producción.
+                                </button>
+                            </div>
+                            <p id="q1-feedback" class="hidden text-xs font-bold mt-2"></p>
+                        </div>
+
+                        <!-- Pregunta 2 -->
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Pregunta 2 de 3</span>
+                            <p class="font-bold text-sm text-gray-900 mt-1 mb-3">En una inspección de control metrológico de la planta, se detecta que el termómetro del tanque de pasteurización registra medida de desviación respecto al patrón nacional. ¿Cuál es el riesgo de inocuidad inmediato?</p>
+                            <div class="grid grid-cols-1 gap-2">
+                                <button onclick="selectAnswer(2, 'A')" id="q2-opt-A" class="quiz-option text-left text-xs sm:text-sm p-3 bg-white hover:bg-emerald-50 rounded-lg border border-gray-300 transition focus:outline-none">
+                                    A. No hay riesgo de inocuidad directa, ya que las bacterias de leche fresca se inhiben ante cualquier temperatura de pasteurización rápida.
+                                </button>
+                                <button onclick="selectAnswer(2, 'B')" id="q2-opt-B" class="quiz-option text-left text-xs sm:text-sm p-3 bg-white hover:bg-emerald-50 rounded-lg border border-gray-300 transition focus:outline-none">
+                                    B. Supervivencia de bacterias patógenas por sub-pasteurización (temperatura real por debajo del límite crítico).
+                                </button>
+                                <button onclick="selectAnswer(2, 'C')" id="q2-opt-C" class="quiz-option text-left text-xs sm:text-sm p-3 bg-white hover:bg-emerald-50 rounded-lg border border-gray-300 transition focus:outline-none">
+                                    C. Un aumento excesivo de la viscosidad de la caseína de la leche fresca debido al exceso térmico incontrolado.
+                                </button>
+                            </div>
+                            <p id="q2-feedback" class="hidden text-xs font-bold mt-2"></p>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="p-4 bg-gray-50 rounded-xl border border-gray-200">
+                            <span class="text-xs font-bold text-slate-500 uppercase">Pregunta 3 de 3</span>
+                            <p class="font-bold text-sm text-gray-900 mt-1 mb-3">¿En qué consiste un procedimiento de saneamiento POES correctamente diseñado?</p>
+                            <div class="grid grid-cols-1 gap-2">
+                                <button onclick="selectAnswer(3, 'A')" id="q3-opt-A" class="quiz-option text-left text-xs sm:text-sm p-3 bg-white hover:bg-emerald-50 rounded-lg border border-gray-300 transition focus:outline-none">
+                                    A. Aplicar cloro concentrado directamente en la superficie húmeda del moldeo, frotar con esponjas metálicas y dejar secar al aire.
+                                </button>
+                                <button onclick="selectAnswer(3, 'B')" id="q3-opt-B" class="quiz-option text-left text-xs sm:text-sm p-3 bg-white hover:bg-emerald-50 rounded-lg border border-gray-300 transition focus:outline-none">
+                                    B. Realizar una eliminación rápida de polvo visible, seguido de un secado húmedo con un paño de microfibra de algodón reutilizado.
+                                </button>
+                                <button onclick="selectAnswer(3, 'C')" id="q3-opt-C" class="quiz-option text-left text-xs sm:text-sm p-3 bg-white hover:bg-emerald-50 rounded-lg border border-gray-300 transition focus:outline-none">
+                                    C. Un protocolo documentado y ordenado que empieza por un enjuague de suciedad visible, seguido de lavado químico con detergente, enjuague de control y desinfección final.
+                                </button>
+                            </div>
+                            <p id="q3-feedback" class="hidden text-xs font-bold mt-2"></p>
+                        </div>
+                    </div>
+
+                    <!-- Gagné 8: Proporcionar retroalimentación de fin de sesión -->
+                    <div id="quiz-final-actions" class="mt-8 flex justify-center hidden">
+                        <button onclick="claimBadge()" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-8 rounded-xl transition duration-150 flex items-center gap-2 text-sm shadow-md animate-bounce">
+                            <i data-lucide="award" class="w-5 h-5"></i>
+                            <span>Reclamar Insignia Técnica</span>
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+<span class=
+            <!-- Gagné 9: Retención y Transferencia -->
+</div>
+            <div class="bg-slate-100 rounded-2xl p-6 border border-gray-200">
+                <h3 class="font-bold text-gray-900 mb-2 flex items-center gap-2 text-sm sm:text-base">
+                    <i data-lucide="share-2" class="w-5 h-5 text-sena-green"></i>
+
+                    Retención y Transferencia de Conocimiento
+                
+                <div id="quiz-container" class="max-w-xl mx-auto text-left bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-slate-100">
+                    
+                        <div class="mb-8 rounded-2xl overflow-hidden border border-slate-200 bg-slate-50">
+                        <img 
+                            src="C:\Users\usuario\OneDrive\Desktop\documentos\imagen\ChatGPT Image 14 may 2026, 17_02_29.png" 
+                            alt="Infografía de apoyo para el Quiz" 
+                            class="w-full h-auto object-contain min-h-[150px]"
+                            onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'p-8 text-center text-slate-400\'><i data-lucide=\'image-off\' class=\'mx-auto w-10 h-10 mb-2\'></i><p class=\'text-sm\'>Infografía de Apoyo Quiz<br><span class=\'text-xs opacity-60\'>Ruta: IMAGENES\\infografia.png</span></p></div>'; lucide.createIcons();"
+                        >
+                    </div>
+
+                   </h3>
+                <p class="text-xs sm:text-sm text-gray-600 leading-relaxed mb-4">
+                    Las Buenas Prácticas de Manufactura no se quedan en el papel. Te retamos a evaluar tu entorno de cocina o de producción habitual hoy mismo: revisa el almacenamiento de tus insumos, el etiquetado y los hábitos de saneamiento. ¡La inocuidad agroindustrial es un compromiso de todos los días!
+                </p>
+                </div>
+Instructora Tatiana Montes.
+                </p>
+                </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-sena-dark text-white py-6 mt-12 text-center text-xs" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p>© 2026 Servicio Nacional de Aprendizaje SENA - Centro de Procesamiento Agroindustrial</p>
+            <p class="text-slate-400">Guía de Aprendizaje Adaptada con Diseño Universal para el Aprendizaje (DUA) y Accesibilidad Total.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL DE INSIGNIA DIGITAL DE COMPETENCIA (GAMIFICACIÓN) -->
+    <div id="badge-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 z-50 hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="bg-white rounded-3xl max-w-md w-full p-8 text-center shadow-2xl border border-amber-100 transform scale-95 transition-all duration-300">
+            <div class="w-24 h-24 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner relative">
+                <!-- Icono de Medalla Dorada -->
+                <i data-lucide="award" class="w-14 h-14 text-amber-500"></i>
+                <div class="absolute -top-1 -right-1 bg-emerald-500 text-white p-1 rounded-full text-xs font-bold shadow">
+                    <i data-lucide="check" class="w-4 h-4"></i>
+                </div>
+            </div>
+            
+            <span class="text-xs font-bold text-sena-green tracking-wider uppercase">Insignia Técnica SENA</span>
+            <h3 id="modal-title" class="text-2xl font-black text-slate-950 mt-1 mb-2">Auditor de Calidad BPM</h3>
+            <p class="text-sm text-slate-600 max-w-sm mx-auto mb-6">
+                ¡Felicidades! Has completado el 100% de la guía interactiva, solucionado el brote contaminante en planta, y demostrado dominio de las BPM en la evaluación.
+            </p>
+
+            <div class="bg-gray-50 rounded-2xl p-4 border border-gray-100 mb-6 flex justify-around text-left">
+                <div>
+                    <span class="text-[10px] text-gray-500 font-bold uppercase block">Puntaje</span>
+                    <span class="text-lg font-mono font-black text-emerald-600">100 / 100</span>
+                </div>
+                <div class="border-l border-gray-200"></div>
+                <div>
+                    <span class="text-[10px] text-gray-500 font-bold uppercase block">Competencia</span>
+                    <span class="text-sm font-bold text-slate-900 block mt-0.5">Inocuidad Alimentaria</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <button onclick="downloadBadgeCertificate()" class="bg-sena-green hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition duration-150 text-sm shadow">
+                    Guardar Certificado PDF
+                </button>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800 text-xs font-bold py-2 transition">
+                    Cerrar Ventana
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT: Lógica de SPA, Interactividad de Simulador y Evaluación -->
+    <script>
+        // Inicializar iconos de Lucide
+        lucide.createIcons();
+
+        // ESTADO GLOBAL DE LA GUÍA (Manejo en memoria)
+        const gameState = {
+            currentStep: 1,
+            completedSteps: [1],
+            score: 0,
+            hotspotsCorrected: {
+                operario: false,
+                termometro: false,
+                quimico: false
+            },
+            quizAnswers: {
+                1: null,
+                2: null,
+                3: null
+            },
+            currentHotspot: null
+        };
+
+        // LÓGICA DE NAVEGACIÓN ENTRE MICROS (Gagné 9 pasos progresivos)
+        function goToStep(stepNumber) {
+            // Ocultar sección actual
+            document.getElementById(`section-${gameState.currentStep}`).classList.add('hidden');
+            document.getElementById(`section-${gameState.currentStep}`).classList.remove('opacity-100');
+
+            // Mostrar nueva sección
+            const targetSection = document.getElementById(`section-${stepNumber}`);
+            targetSection.classList.remove('hidden');
+            // Retardo para animación fluida de opacidad
+            setTimeout(() => {
+                targetSection.classList.add('opacity-100');
+            }, 50);
+
+            // Actualizar estado del Stepper Visual de la barra de navegación
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`btn-step-${i}`);
+                const numSpan = btn.querySelector('span');
+
+                if (i === stepNumber) {
+                    btn.className = "w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm font-semibold transition bg-emerald-50 text-emerald-700 border-l-4 border-emerald-500";
+                    numSpan.className = "w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs";
+                } else if (gameState.completedSteps.includes(i)) {
+                    btn.className = "w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm font-semibold transition text-emerald-600 hover:bg-emerald-50";
+                    numSpan.className = "w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs";
+                } else {
+                    btn.className = "w-full flex items-center gap-2 p-2 rounded-lg text-left text-sm font-semibold transition text-gray-500 hover:bg-gray-50";
+                    numSpan.className = "w-6 h-6 rounded-full bg-gray-300 text-white flex items-center justify-center text-xs";
+                }
+            }
+
+            // Marcar paso como visitado en el progreso del aprendiz
+            if (!gameState.completedSteps.includes(stepNumber)) {
+                gameState.completedSteps.push(stepNumber);
+            }
+
+            // Actualizar barra de progreso global superior
+            const progressPercent = (gameState.completedSteps.length / 4) * 100;
+            document.getElementById('global-progress').style.width = `${progressPercent}%`;
+            document.getElementById('progress-bar-container').setAttribute('aria-valuenow', progressPercent);
+
+            gameState.currentStep = stepNumber;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // LÓGICA DE TABS DE CONTENIDO (Pestañas de Micro 2)
+        function switchTab(tabId) {
+            const tabs = ['higiene', 'diseno', 'controles'];
+            tabs.forEach(tab => {
+                const button = document.getElementById(`tab-${tab}`);
+                const content = document.getElementById(`content-${tab}`);
+                if (tab === tabId) {
+                    button.className = "flex-1 py-3 px-4 text-center font-bold text-sm border-b-2 border-sena-green text-sena-green focus:outline-none transition";
+                    button.setAttribute('aria-selected', 'true');
+                    content.classList.remove('hidden');
+                } else {
+                    button.className = "flex-1 py-3 px-4 text-center font-bold text-sm border-b-2 border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300 focus:outline-none transition";
+                    button.setAttribute('aria-selected', 'false');
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        // LÓGICA INTERACTIVA DEL SIMULADOR DE PLANTA (Micro 3)
+        function interactHotspot(item) {
+            gameState.currentHotspot = item;
+            const panel = document.getElementById('sim-feedback-panel');
+            const iconContainer = document.getElementById('sim-icon-container');
+            const title = document.getElementById('sim-title');
+            const desc = document.getElementById('sim-desc');
+            const actionsContainer = document.getElementById('sim-actions-container');
+
+            panel.classList.remove('hidden');
+            actionsContainer.innerHTML = ''; // Limpiar acciones
+
+            if (item === 'operario') {
+                title.innerText = "Operario sin cofia ni guantes en Mesa de Moldeo";
+                desc.innerText = "¡Contaminación microbiológica directa de la cuajada de queso fresca!";
+                iconContainer.className = "p-2 bg-amber-500/20 text-amber-400 rounded-lg";
+                
+                actionsContainer.innerHTML = `
+                    <button onclick="solveHotspot('operario', true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded text-xs transition">Suministrar cofia, guantes y exigir lavado de manos</button>
+                    <button onclick="solveHotspot('operario', false)" class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2 px-4 rounded text-xs transition">Permitir que siga trabajando</button>
+                `;
+            } else if (item === 'termometro') {
+                title.innerText = "Termómetro de Pasteurización con Desviación";
+                desc.innerText = "El indicador mecánico no coincide con la temperatura de consigna real.";
+                iconContainer.className = "p-2 bg-orange-500/20 text-orange-400 rounded-lg";
+
+                actionsContainer.innerHTML = `
+                    <button onclick="solveHotspot('termometro', true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded text-xs transition">Retirar del lote de producción y calibrar el termostato</button>
+                    <button onclick="solveHotspot('termometro', false)" class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2 px-4 rounded text-xs transition">Esperar a que termine la pasteurización</button>
+                `;
+            } else if (item === 'quimico') {
+                title.innerText = "Detergente Sanitizante abierto junto a Tina de Cuajado";
+                desc.innerText = "Peligro inminente de contaminación química y biológica.";
+                iconContainer.className = "p-2 bg-red-500/20 text-red-400 rounded-lg";
+
+                actionsContainer.innerHTML = `
+                    <button onclick="solveHotspot('quimico', true)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded text-xs transition">Rotular el desinfectante, sellar y guardar en bodega de químicos</button>
+                    <button onclick="solveHotspot('quimico', false)" class="bg-slate-700 hover:bg-slate-600 text-slate-200 font-bold py-2 px-4 rounded text-xs transition">Limpiar con toallas de algodón sin tapar el envase</button>
+                `;
+            }
+        }
+
+        function solveHotspot(item, isCorrectAction) {
+            const panel = document.getElementById('sim-feedback-panel');
+            const badge = document.getElementById(`badge-${item}`);
+            const buttonHotspot = document.getElementById(`hotspot-${item}`);
+
+            if (isCorrectAction) {
+                gameState.hotspotsCorrected[item] = true;
+                gameState.score += 20; // Sumar 20 puntos por cada resolución exitosa de auditoría
+                
+                // Actualizar interfaz del hotspot resuelto
+                buttonHotspot.classList.remove('bg-amber-500', 'bg-orange-500', 'bg-red-500', 'animate-bounce');
+                buttonHotspot.classList.add('bg-emerald-600', 'cursor-default');
+                buttonHotspot.innerHTML = '<i data-lucide="check" class="w-5 h-5 text-white"></i>';
+                buttonHotspot.disabled = true;
+
+                // Actualizar el badge de control de planta
+                badge.className = "p-3 bg-emerald-50 border border-emerald-200 rounded-xl flex flex-col items-center text-emerald-800";
+                badge.innerHTML = `<i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 mb-1"></i><span class="text-xs font-bold">Resuelto (+20)</span>`;
+            } else {
+                // Alerta de corrección fallida / Retroalimentación inmediata
+                alert("¡Infracción técnica! Esa acción correctiva no cumple con la normatividad sanitaria del SENA. Revisa la teoría de las BPM de nuevo.");
+            }
+
+            // Ocultar panel de control
+            panel.classList.add('hidden');
+            lucide.createIcons();
+            updateScoreUI();
+        }
+
+        // LÓGICA DE LA EVALUACIÓN DEL DESEMPEÑO (Micro 4)
+        const correctQuizAnswers = {
+            1: 'A',
+            2: 'B',
+            3: 'C'
+        };
+
+        function selectAnswer(questionNum, option) {
+            if (gameState.quizAnswers[questionNum] !== null) return; // Ya contestada
+
+            gameState.quizAnswers[questionNum] = option;
+            const feedbackText = document.getElementById(`q${questionNum}-feedback`);
+            
+            // Colorear opciones del quiz para feedback instantáneo
+            const options = ['A', 'B', 'C'];
+            options.forEach(opt => {
+                const btn = document.getElementById(`q${questionNum}-opt-${opt}`);
+                btn.disabled = true;
+                if (opt === correctQuizAnswers[questionNum]) {
+                    btn.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900');
+                    btn.classList.remove('hover:bg-emerald-50');
+                } else if (opt === option) {
+                    btn.classList.add('bg-red-100', 'border-red-500', 'text-red-900');
+                    btn.classList.remove('hover:bg-emerald-50');
+                }
+            });
+
+            // Verificar si es correcta e inyectar retroalimentación
+            if (option === correctQuizAnswers[questionNum]) {
+                gameState.score += 13.3; // 3 preguntas equivalen a 40 puntos en total
+                feedbackText.innerText = "¡Excelente! Has dominado este parámetro técnico de inocuidad alimentaria.";
+                feedbackText.className = "text-xs font-bold mt-2 text-emerald-600";
+            } else {
+                feedbackText.innerText = `Incorrecto. Pista: la opción correcta es la ${correctQuizAnswers[questionNum]}. Revisa el protocolo en el Micro 2.`;
+                feedbackText.className = "text-xs font-bold mt-2 text-red-600";
+            }
+            feedbackText.classList.remove('hidden');
+            updateScoreUI();
+
+            // Si todas están contestadas, mostrar botón de insignia
+            if (gameState.quizAnswers[1] !== null && gameState.quizAnswers[2] !== null && gameState.quizAnswers[3] !== null) {
+                document.getElementById('quiz-final-actions').classList.remove('hidden');
+            }
+        }
+
+        function updateScoreUI() {
+            // Normalizar score al máximo de 100 puntos
+            const displayScore = Math.min(Math.round(gameState.score), 100);
+            document.getElementById('score-counter').innerText = displayScore;
+        }
+
+        // LÓGICA DE GAMIFICACIÓN - INSIGNIAS Y MODAL
+        function claimBadge() {
+            const displayScore = Math.min(Math.round(gameState.score), 100);
+            if (displayScore >= 70) {
+                // Mostrar el modal con la insignia técnica de competencia lograda
+                const modal = document.getElementById('badge-modal');
+                modal.classList.remove('hidden');
+            } else {
+                alert(`Puntaje actual: ${displayScore} / 100. Necesitas al menos 70 puntos para certificarte como Auditor de Calidad BPM. ¡Regresa al simulador de planta o al quiz para resolver tus dudas!`);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('badge-modal').classList.add('hidden');
+        }
+
+        // Acción ficticia de descarga de certificado para la gamificación
+        function downloadBadgeCertificate() {
+            alert("SENA Sistema de Gestión Académica:\n\nCertificado Digital descargado exitosamente como PDF en la carpeta de descargas del sistema.");
+        }
+    </script>
+</body>
+</html>
